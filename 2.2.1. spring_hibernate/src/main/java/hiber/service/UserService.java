@@ -9,5 +9,7 @@ public interface UserService {
 
     List<User> listUsers();
 
-    List<User> getUserToAvto(String audio, int i);
+    default List<User> getUserToAvto(String model, int series){
+        return null;
+    }
 }

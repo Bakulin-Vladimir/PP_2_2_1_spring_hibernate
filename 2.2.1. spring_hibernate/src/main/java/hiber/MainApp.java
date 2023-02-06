@@ -4,7 +4,6 @@ import hiber.config.AppConfig;
 import hiber.model.Car;
 import hiber.model.User;
 import hiber.service.UserService;
-import hiber.service.UserServiceImp;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.SQLException;
@@ -25,6 +24,10 @@ public class MainApp {
         User user2 = new User("Петр", "Иванов", "petr@mail.ru");
         User user3 = new User("Василий", "Петров", "vasily3@mail.ru");
         User user4 = new User("Игорь", "Попов", "igor@mail.ru");
+        car1.setUser(user1);
+        car2.setUser(user2);
+        car3.setUser(user3);
+        car4.setUser(user4);
         user1.setCar(car1);
         user2.setCar(car2);
         user3.setCar(car3);

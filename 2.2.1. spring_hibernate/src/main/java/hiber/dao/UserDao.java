@@ -9,5 +9,7 @@ public interface UserDao {
 
     List<User> listUsers();
 
-    List<User> getUserToAvto(String model, int series);
+    default List<User> getUserToAvto(String model, int series){
+        return null;
+    }
 }

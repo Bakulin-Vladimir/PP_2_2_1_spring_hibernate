@@ -1,6 +1,5 @@
 package hiber.dao;
 
-import hiber.MainApp;
 import hiber.model.Car;
 import hiber.model.User;
 import org.hibernate.SessionFactory;
@@ -14,8 +13,12 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-    @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public UserDaoImp(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void add(User user) {
@@ -29,12 +32,19 @@ public class UserDaoImp implements UserDao {
         return query.getResultList();
     }
 
+    @Override
     public List<User> getUserToAvto(String model, int series) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Car where model=:paramModel and series=:paramSeries");
-        List<Car> cartList = query.setParameter("paramModel", model).setParameter("paramSeries", series).getResultList();
-        List<User> userList = new ArrayList<>();
-        for (Car car : cartList) {
-            userList.add(car.getUser());
+        List<User> userList = null;
+        try {
+            List<Car> cartList = sessionFactory.getCurrentSession().createQuery("from Car where model=:paramModel and series=:paramSeries").
+                    setParameter("paramModel", model).setParameter("paramSeries", series).getResultList();
+            userList = new ArrayList<>();
+            for (Car car : cartList) {
+                userList.add(car.getUser());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
         }
         return userList;
     }
