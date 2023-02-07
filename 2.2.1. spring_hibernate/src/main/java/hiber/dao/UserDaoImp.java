@@ -3,7 +3,6 @@ package hiber.dao;
 import hiber.model.Car;
 import hiber.model.User;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,13 +35,13 @@ public class UserDaoImp implements UserDao {
     public List<User> getUserToAvto(String model, int series) {
         List<User> userList = null;
         try {
-            List<Car> cartList = sessionFactory.getCurrentSession().createQuery("from Car where model=:paramModel and series=:paramSeries").
+            List<Car> cartList = sessionFactory.openSession().createQuery("from Car c fetch all properties where lower(c.model)=: paramModel and lower(c.series)=: paramSeries", Car.class).
                     setParameter("paramModel", model).setParameter("paramSeries", series).getResultList();
             userList = new ArrayList<>();
             for (Car car : cartList) {
                 userList.add(car.getUser());
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }

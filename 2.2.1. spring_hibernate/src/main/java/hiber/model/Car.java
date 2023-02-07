@@ -1,17 +1,18 @@
 package hiber.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "car")
-public class Car {
+public class Car implements Serializable {
     @Id
     private Long id;
     @Column(name = "model")
     private String model;
     @Column(name = "series")
     private int series;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
