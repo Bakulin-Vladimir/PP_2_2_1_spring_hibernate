@@ -35,7 +35,8 @@ public class UserDaoImp implements UserDao {
     public List<User> getUserToAvto(String model, int series) {
         List<User> userList = null;
         try {
-            List<Car> cartList = sessionFactory.openSession().createQuery("from Car c fetch all properties where lower(c.model)=: paramModel and lower(c.series)=: paramSeries", Car.class).
+//            List<Car> cartList = sessionFactory.openSession().createQuery("from Car c fetch all properties where lower(c.model)=: paramModel and lower(c.series)=: paramSeries", Car.class).
+            List<Car> cartList = sessionFactory.openSession().createQuery("from Car c left join fetch c.user where c.model=: paramModel and c.series=: paramSeries", Car.class).
                     setParameter("paramModel", model).setParameter("paramSeries", series).getResultList();
             userList = new ArrayList<>();
             for (Car car : cartList) {
